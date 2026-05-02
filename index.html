@@ -28,6 +28,24 @@
   .header-right { display: flex; align-items: center; gap: 14px; font-size: 12px; }
   .followup-badge { background: rgba(255,255,255,0.25); color: #FDF6F0; border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; padding: 3px 12px; font-weight: 600; font-size: 11px; display: none; }
   .stats { color: rgba(253,246,240,0.75); }
+  .toolbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 28px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .search-box { flex: 1; min-width: 180px; border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); background: var(--bg); outline: none; }
+  .search-box:focus { border-color: var(--coral); }
+  .filter-select { border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--text); background: var(--bg); outline: none; cursor: pointer; }
+  .filter-select:focus { border-color: var(--coral); }
+  .priority-banner { background: linear-gradient(135deg, #FEF0EC, #FDF6F8); border-bottom: 1px solid #F0D8D0; padding: 12px 28px; display: none; }
+  .priority-banner.visible { display: block; }
+  .priority-banner-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .priority-banner-title { font-size: 12px; font-weight: 600; color: var(--coral); text-transform: uppercase; letter-spacing: 0.08em; font-family: 'DM Sans', sans-serif; }
+  .priority-banner-close { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 16px; line-height: 1; }
+  .priority-items { display: flex; gap: 10px; flex-wrap: wrap; }
+  .priority-item { background: var(--surface); border: 1px solid #F0D0C8; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--text); flex: 1; min-width: 160px; }
+  .priority-item-num { font-weight: 700; color: var(--coral); margin-right: 6px; }
+  .priority-item-why { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+  .btn-action { border: none; border-radius: 8px; padding: 7px 16px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; color: #FDF6F0; }
+  .btn-action:disabled { opacity: 0.5; cursor: default; }
+  .btn-action-coral { background: linear-gradient(135deg, #C0622F, #E8735A); }
+  .btn-action-muted { background: linear-gradient(135deg, #A0806A, #C4A8C8); }
   .dump-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 28px; display: flex; gap: 10px; align-items: flex-start; }
   .dump-bar textarea { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-family: 'Playfair Display', serif; font-size: 13px; color: var(--text); background: var(--bg); resize: none; height: 42px; outline: none; transition: border-color 0.15s, height 0.2s; line-height: 1.5; }
   .dump-bar textarea:focus { border-color: var(--coral); height: 90px; }
@@ -40,7 +58,7 @@
   .btn-process:disabled { opacity: 0.4; cursor: default; }
   .dump-msg { font-size: 12px; padding: 6px 28px; font-style: italic; min-height: 24px; color: #2E8A5E; }
   .dump-msg.error { color: var(--high); }
-  .board { display: flex; gap: 12px; padding: 16px 28px 48px; overflow-x: auto; min-height: calc(100vh - 220px); align-items: flex-start; }
+  .board { display: flex; gap: 12px; padding: 16px 28px 48px; overflow-x: auto; min-height: calc(100vh - 300px); align-items: flex-start; }
   .col { min-width: 220px; flex: 1 1 220px; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 12px 10px; transition: border-color 0.15s, background 0.15s; }
   .col.drag-over { border-color: var(--col-color); background: var(--col-light); }
   .col-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 2px; }
@@ -50,20 +68,42 @@
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 10px 11px; cursor: grab; transition: opacity 0.12s, box-shadow 0.12s; user-select: none; }
   .card:hover { box-shadow: 0 2px 12px rgba(192,98,47,0.1); border-color: #F0C8B0; }
   .card.dragging { opacity: 0.4; }
+  .card.overdue { border-left: 3px solid #E8735A; }
+  .card.due-soon { border-left: 3px solid #F4C090; }
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   .card-title { font-size: 13px; font-weight: 600; line-height: 1.4; flex: 1; color: var(--text); }
   .card-title.done-title { text-decoration: line-through; color: var(--text-muted); }
   .check-btn { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border); background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #fff; margin-top: 1px; transition: all 0.15s; }
   .check-btn.checked { background: #2E8A5E; border-color: #2E8A5E; }
   .card-notes { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; font-weight: 300; }
-  .card-tags { display: flex; gap: 4px; margin-top: 7px; flex-wrap: wrap; }
+  .card-notes-toggle { font-size: 10px; color: var(--coral); cursor: pointer; margin-top: 2px; background: none; border: none; padding: 0; font-family: 'DM Sans', sans-serif; }
+  .card-tags { display: flex; gap: 4px; margin-top: 7px; flex-wrap: wrap; align-items: center; }
   .tag { font-size: 10px; border-radius: 4px; padding: 2px 6px; font-weight: 500; }
   .tag-cat { background: #FDE8D8; color: #8C4A2A; }
   .tag-fu { background: #FDE8D8; color: var(--coral); }
+  .tag-due { background: #FFF0E8; color: #A0622F; }
+  .tag-overdue { background: #FEE8E0; color: #C0392B; }
+  .subtasks { margin-top: 8px; padding-top: 6px; border-top: 1px solid var(--border); }
+  .subtask-item { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .subtask-check { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--border); background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #fff; transition: all 0.15s; }
+  .subtask-check.done { background: #2E8A5E; border-color: #2E8A5E; }
+  .subtask-label { font-size: 11px; color: var(--text); flex: 1; }
+  .subtask-label.done { text-decoration: line-through; color: var(--text-muted); }
+  .subtask-progress { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
   .btn-add { margin-top: 8px; width: 100%; border: 1.5px dashed var(--border); border-radius: 8px; padding: 7px; background: transparent; color: var(--text-muted); font-size: 12px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
   .btn-add:hover { border-color: var(--coral); color: var(--coral); }
+  .weekly-panel { display: none; position: fixed; inset: 0; background: rgba(44,24,16,0.5); z-index: 400; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(2px); }
+  .weekly-panel.visible { display: flex; }
+  .weekly-modal { background: var(--surface); border-radius: 14px; padding: 28px; width: 100%; max-width: 560px; max-height: 85vh; overflow-y: auto; box-shadow: 0 12px 48px rgba(44,24,16,0.2); }
+  .weekly-modal h2 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .weekly-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; font-style: italic; }
+  .weekly-section { margin-bottom: 20px; }
+  .weekly-section h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+  .weekly-item { font-size: 13px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .weekly-item:last-child { border-bottom: none; }
+  .weekly-stale { color: var(--coral); }
   .overlay { position: fixed; inset: 0; background: rgba(44,24,16,0.5); display: flex; align-items: center; justify-content: center; z-index: 500; padding: 20px; backdrop-filter: blur(2px); }
-  .modal { background: var(--surface); border-radius: 14px; padding: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 12px 48px rgba(44,24,16,0.2); }
+  .modal { background: var(--surface); border-radius: 14px; padding: 24px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: 0 12px 48px rgba(44,24,16,0.2); }
   .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .modal-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
   .modal-actions { display: flex; gap: 8px; }
@@ -81,6 +121,13 @@
   .btn-row { display: flex; gap: 10px; margin-top: 20px; }
   .btn-save { flex: 1; background: linear-gradient(135deg, #C0622F, #E8735A); color: #FDF6F0; border: none; border-radius: 8px; padding: 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
   .btn-cancel { background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 10px 18px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; }
+  .subtask-editor { margin-top: 6px; }
+  .subtask-edit-item { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .subtask-edit-item input { flex: 1; border: 1px solid var(--border); border-radius: 6px; padding: 5px 8px; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--text); background: var(--bg); outline: none; }
+  .subtask-edit-item input:focus { border-color: var(--coral); }
+  .btn-remove-sub { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px; line-height: 1; padding: 0 2px; }
+  .btn-add-sub { background: none; border: 1px dashed var(--border); border-radius: 6px; padding: 5px 12px; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--text-muted); cursor: pointer; margin-top: 4px; }
+  .btn-add-sub:hover { border-color: var(--coral); color: var(--coral); }
   .loading-bar { text-align: center; padding: 40px; color: var(--text-muted); font-style: italic; }
 </style>
 </head>
@@ -101,6 +148,35 @@
   </div>
 </header>
 
+<div class="priority-banner" id="priorityBanner">
+  <div class="priority-banner-header">
+    <div class="priority-banner-title">✦ Your top priorities right now</div>
+    <button class="priority-banner-close" onclick="document.getElementById('priorityBanner').classList.remove('visible')">×</button>
+  </div>
+  <div class="priority-items" id="priorityItems"></div>
+</div>
+
+<div class="toolbar">
+  <input class="search-box" id="searchBox" placeholder="🔍 Search tasks…" oninput="applyFilters()" />
+  <select class="filter-select" id="filterCat" onchange="applyFilters()">
+    <option value="">All categories</option>
+    <option value="business">💼 Business</option>
+    <option value="personal">🌿 Personal</option>
+    <option value="research">🔍 Research</option>
+    <option value="travel">✈️ Travel</option>
+    <option value="home">🏡 Home</option>
+    <option value="creative">✨ Creative</option>
+  </select>
+  <select class="filter-select" id="filterPri" onchange="applyFilters()">
+    <option value="">All priorities</option>
+    <option value="high">High</option>
+    <option value="medium">Medium</option>
+    <option value="low">Low</option>
+  </select>
+  <button class="btn-action btn-action-coral" id="priorityBtn" onclick="getDailyPriorities()">✦ Prioritize my day</button>
+  <button class="btn-action btn-action-muted" onclick="showWeeklyReview()">📊 Weekly review</button>
+</div>
+
 <div class="dump-bar">
   <textarea id="dumpInput" placeholder="What's swirling around in your head right now? Pour it all out — ideas, tasks, things to follow up on. I'll take it from here."></textarea>
   <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="Speak your thoughts">🎙️</button>
@@ -110,6 +186,15 @@
 
 <div class="board" id="board">
   <div class="loading-bar">Loading your tasks…</div>
+</div>
+
+<div class="weekly-panel" id="weeklyPanel" onclick="hideWeeklyReview(event)">
+  <div class="weekly-modal" onclick="event.stopPropagation()">
+    <h2>Weekly Review</h2>
+    <div class="weekly-subtitle" id="weeklySubtitle"></div>
+    <div id="weeklyContent"></div>
+    <button class="btn-save" style="margin-top:16px" onclick="document.getElementById('weeklyPanel').classList.remove('visible')">Close</button>
+  </div>
 </div>
 
 <div class="overlay" id="overlay" style="display:none" onclick="closeModal(event)">
@@ -156,6 +241,11 @@
         </select>
       </div>
     </div>
+    <label class="field-label">Due Date (optional)</label>
+    <input class="field" type="date" id="fDueDate" />
+    <label class="field-label">Subtasks</label>
+    <div class="subtask-editor" id="subtaskEditor"></div>
+    <button class="btn-add-sub" onclick="addSubtaskField()">+ Add subtask</button>
     <label class="followup-check">
       <input type="checkbox" id="fFollowUp" /> Flag for follow-up
     </label>
@@ -189,36 +279,36 @@ const PRI_COLOR = { high: "#E8735A", medium: "#C4A8C8", low: "#B0A898" };
 const PRI_LABEL = { high: "High", medium: "Med", low: "Low" };
 const PRI_ORDER = { high: 0, medium: 1, low: 2 };
 
-let tasks = [], editingId = null, dragId = null;
+let tasks = [], editingId = null, dragId = null, filteredIds = null;
 let recognition = null, isListening = false;
 
 document.getElementById("dateDisplay").textContent =
   new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
 
 function toggleMic() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) { alert("Voice input isn't supported in this browser. Try Chrome or Safari on iPhone."); return; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert("Voice input isn't supported here. Try Chrome or Safari on iPhone."); return; }
   if (isListening) { recognition.stop(); return; }
-  recognition = new SpeechRecognition();
+  recognition = new SR();
   recognition.continuous = true;
   recognition.interimResults = true;
   recognition.lang = "en-US";
   const micBtn = document.getElementById("micBtn");
   const input = document.getElementById("dumpInput");
-  let finalTranscript = input.value;
-  recognition.onstart = function() { isListening = true; micBtn.classList.add("listening"); micBtn.textContent = "⏹️"; micBtn.title = "Tap to stop"; };
-  recognition.onresult = function(event) {
+  let final = input.value;
+  recognition.onstart = function() { isListening = true; micBtn.classList.add("listening"); micBtn.textContent = "⏹️"; };
+  recognition.onresult = function(e) {
     let interim = "";
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      if (event.results[i].isFinal) { finalTranscript += event.results[i][0].transcript + " "; }
-      else { interim += event.results[i][0].transcript; }
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) { final += e.results[i][0].transcript + " "; }
+      else { interim += e.results[i][0].transcript; }
     }
-    input.value = finalTranscript + interim;
+    input.value = final + interim;
   };
-  recognition.onend = function() { isListening = false; micBtn.classList.remove("listening"); micBtn.textContent = "🎙️"; micBtn.title = "Speak your thoughts"; input.value = finalTranscript.trim(); };
-  recognition.onerror = function(event) {
+  recognition.onend = function() { isListening = false; micBtn.classList.remove("listening"); micBtn.textContent = "🎙️"; input.value = final.trim(); };
+  recognition.onerror = function(e) {
     isListening = false; micBtn.classList.remove("listening"); micBtn.textContent = "🎙️";
-    if (event.error !== "aborted") { document.getElementById("dumpMsg").textContent = "Mic error: " + event.error; document.getElementById("dumpMsg").className = "dump-msg error"; }
+    if (e.error !== "aborted") { setMsg("Mic error: " + e.error, true); }
   };
   recognition.start();
 }
@@ -232,7 +322,18 @@ async function atFetch(method, path, body) {
 
 function toTask(rec) {
   const f = rec.fields;
-  return { id: rec.id, title: f.Title || "", notes: f.Notes || "", column: f.Column || "backlog", category: f.Category || "personal", priority: f.Priority || "medium", followUp: f["Follow Up"] || false };
+  return {
+    id: rec.id,
+    title: f.Title || "",
+    notes: f.Notes || "",
+    column: f.Column || "backlog",
+    category: f.Category || "personal",
+    priority: f.Priority || "medium",
+    followUp: f["Follow Up"] || false,
+    dueDate: f["Due Date"] || "",
+    subtasks: f["Subtasks"] ? JSON.parse(f["Subtasks"]) : [],
+    createdAt: f["Created"] || rec.createdTime || "",
+  };
 }
 
 async function loadTasks() {
@@ -258,66 +359,203 @@ async function deleteTaskRemote(id) {
   await fetch(API + "/" + id, { method: "DELETE", headers: { "Authorization": "Bearer " + AIRTABLE_TOKEN } });
 }
 
+function dueDateStatus(dueDate) {
+  if (!dueDate) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const due = new Date(dueDate + "T00:00:00");
+  const diff = Math.round((due - today) / 86400000);
+  if (diff < 0) return "overdue";
+  if (diff <= 2) return "soon";
+  return "ok";
+}
+
+function formatDue(dueDate) {
+  if (!dueDate) return "";
+  const today = new Date(); today.setHours(0,0,0,0);
+  const due = new Date(dueDate + "T00:00:00");
+  const diff = Math.round((due - today) / 86400000);
+  if (diff < 0) return "Overdue " + Math.abs(diff) + "d";
+  if (diff === 0) return "Due today";
+  if (diff === 1) return "Due tomorrow";
+  if (diff <= 7) return "Due in " + diff + "d";
+  return "Due " + due.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
+function applyFilters() {
+  const search = document.getElementById("searchBox").value.toLowerCase().trim();
+  const cat = document.getElementById("filterCat").value;
+  const pri = document.getElementById("filterPri").value;
+  if (!search && !cat && !pri) { filteredIds = null; }
+  else {
+    filteredIds = new Set(tasks.filter(function(t) {
+      const matchSearch = !search || t.title.toLowerCase().includes(search) || t.notes.toLowerCase().includes(search);
+      const matchCat = !cat || t.category === cat;
+      const matchPri = !pri || t.priority === pri;
+      return matchSearch && matchCat && matchPri;
+    }).map(function(t) { return t.id; }));
+  }
+  render();
+}
+
+async function getDailyPriorities() {
+  const btn = document.getElementById("priorityBtn");
+  btn.disabled = true; btn.textContent = "Thinking…";
+  const active = tasks.filter(function(t) { return t.column !== "done"; }).map(function(t) {
+    return '"' + t.title + '" [' + t.priority + ' priority, ' + t.column + (t.dueDate ? ", due " + t.dueDate : "") + ']';
+  }).join("\n");
+  try {
+    const res = await fetch("/api/process-dump", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: 'PRIORITY_MODE: Based on these tasks, give me my top 3 priorities right now with a one-sentence reason for each. Return JSON only: {"priorities":[{"title":"task title","reason":"why this first"}]}\n\nTasks:\n' + active }),
+    });
+    const data = await res.json();
+    if (data.priorities && Array.isArray(data.priorities)) {
+      const container = document.getElementById("priorityItems");
+      container.innerHTML = data.priorities.map(function(p, i) {
+        return '<div class="priority-item"><div><span class="priority-item-num">' + (i+1) + '.</span>' + p.title + '</div><div class="priority-item-why">' + p.reason + '</div></div>';
+      }).join("");
+      document.getElementById("priorityBanner").classList.add("visible");
+    }
+  } catch(e) {}
+  btn.disabled = false; btn.textContent = "✦ Prioritize my day";
+}
+
+function showWeeklyReview() {
+  const now = new Date();
+  const weekAgo = new Date(now - 7 * 86400000);
+  const done = tasks.filter(function(t) { return t.column === "done"; });
+  const stale = tasks.filter(function(t) {
+    if (t.column === "done") return false;
+    if (!t.createdAt) return false;
+    return (now - new Date(t.createdAt)) > 7 * 86400000;
+  });
+  const overdue = tasks.filter(function(t) { return t.column !== "done" && dueDateStatus(t.dueDate) === "overdue"; });
+
+  document.getElementById("weeklySubtitle").textContent =
+    "Week of " + weekAgo.toLocaleDateString("en-US", { month: "long", day: "numeric" }) +
+    " – " + now.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+
+  let html = "";
+  html += '<div class="weekly-section"><h3>✅ Completed (' + done.length + ')</h3>';
+  if (done.length === 0) { html += '<div class="weekly-item" style="color:var(--text-muted)">Nothing marked done yet.</div>'; }
+  else { done.forEach(function(t) { html += '<div class="weekly-item">' + t.title + '</div>'; }); }
+  html += "</div>";
+
+  html += '<div class="weekly-section"><h3>⏰ Overdue (' + overdue.length + ')</h3>';
+  if (overdue.length === 0) { html += '<div class="weekly-item" style="color:var(--text-muted)">You\'re all caught up!</div>'; }
+  else { overdue.forEach(function(t) { html += '<div class="weekly-item weekly-stale">' + t.title + ' — due ' + t.dueDate + '</div>'; }); }
+  html += "</div>";
+
+  html += '<div class="weekly-section"><h3>🕰 Sitting untouched 7+ days (' + stale.length + ')</h3>';
+  if (stale.length === 0) { html += '<div class="weekly-item" style="color:var(--text-muted)">Nothing stale — great momentum!</div>'; }
+  else { stale.forEach(function(t) { html += '<div class="weekly-item weekly-stale">' + t.title + ' <span style="color:var(--text-muted)">[' + t.column + ']</span></div>'; }); }
+  html += "</div>";
+
+  document.getElementById("weeklyContent").innerHTML = html;
+  document.getElementById("weeklyPanel").classList.add("visible");
+}
+
+function hideWeeklyReview(e) {
+  if (e.target === document.getElementById("weeklyPanel")) {
+    document.getElementById("weeklyPanel").classList.remove("visible");
+  }
+}
+
 function render() {
-  const followUps = tasks.filter(t => t.followUp && t.column !== "done").length;
-  const done = tasks.filter(t => t.column === "done").length;
-  const active = tasks.filter(t => t.column !== "done").length;
+  const followUps = tasks.filter(function(t) { return t.followUp && t.column !== "done"; }).length;
+  const done = tasks.filter(function(t) { return t.column === "done"; }).length;
+  const active = tasks.filter(function(t) { return t.column !== "done"; }).length;
   const badge = document.getElementById("followupBadge");
   badge.style.display = followUps > 0 ? "block" : "none";
   if (followUps > 0) badge.textContent = followUps + " follow-up" + (followUps > 1 ? "s" : "");
   document.getElementById("statsDisplay").textContent = done + " done · " + active + " active";
   const board = document.getElementById("board");
   board.innerHTML = "";
-  COLS.forEach(col => {
-    const colTasks = tasks.filter(t => t.column === col.id).sort((a, b) => PRI_ORDER[a.priority] - PRI_ORDER[b.priority]);
+  COLS.forEach(function(col) {
+    let colTasks = tasks.filter(function(t) { return t.column === col.id; });
+    if (filteredIds) colTasks = colTasks.filter(function(t) { return filteredIds.has(t.id); });
+    colTasks.sort(function(a, b) { return PRI_ORDER[a.priority] - PRI_ORDER[b.priority]; });
     const el = document.createElement("div");
     el.className = "col";
     el.style.setProperty("--col-color", col.color);
     el.style.setProperty("--col-light", col.light);
-    el.addEventListener("dragover", e => { e.preventDefault(); el.classList.add("drag-over"); });
-    el.addEventListener("dragleave", () => el.classList.remove("drag-over"));
-    el.addEventListener("drop", () => { el.classList.remove("drag-over"); dropOnCol(col.id); });
-    el.innerHTML = `
-      <div class="col-header">
-        <div class="col-title" style="color:${col.color}">${col.emoji} ${col.label}</div>
-        <div class="col-count" style="background:${col.light};color:${col.color}">${colTasks.length}</div>
-      </div>
-      <div class="cards" id="cards-${col.id}"></div>
-      <button class="btn-add" style="--col-color:${col.color}" onclick="openNew('${col.id}')">+ Add task</button>
-    `;
+    el.addEventListener("dragover", function(e) { e.preventDefault(); el.classList.add("drag-over"); });
+    el.addEventListener("dragleave", function() { el.classList.remove("drag-over"); });
+    el.addEventListener("drop", function() { el.classList.remove("drag-over"); dropOnCol(col.id); });
+    el.innerHTML =
+      '<div class="col-header">' +
+        '<div class="col-title" style="color:' + col.color + '">' + col.emoji + ' ' + col.label + '</div>' +
+        '<div class="col-count" style="background:' + col.light + ';color:' + col.color + '">' + colTasks.length + '</div>' +
+      '</div>' +
+      '<div class="cards" id="cards-' + col.id + '"></div>' +
+      '<button class="btn-add" style="--col-color:' + col.color + '" onclick="openNew(\'' + col.id + '\')">+ Add task</button>';
     board.appendChild(el);
     const cardsEl = el.querySelector(".cards");
-    colTasks.forEach(task => {
+    colTasks.forEach(function(task) {
       const card = document.createElement("div");
-      card.className = "card" + (task.id === dragId ? " dragging" : "");
+      const status = dueDateStatus(task.dueDate);
+      card.className = "card" + (task.id === dragId ? " dragging" : "") + (status === "overdue" ? " overdue" : status === "soon" ? " due-soon" : "");
       card.draggable = true;
       const isDone = task.column === "done";
       const priColor = PRI_COLOR[task.priority] || "#999";
-      const notesHtml = task.notes ? `<div class="card-notes">${task.notes.length > 80 ? task.notes.slice(0,80) + "…" : task.notes}</div>` : "";
-      const fuHtml = task.followUp ? `<span class="tag tag-fu">↩ Follow-up</span>` : "";
-      card.innerHTML = `
-        <div class="card-top">
-          <div class="card-title ${isDone ? "done-title" : ""}">${task.title}</div>
-          <button class="check-btn ${isDone ? "checked" : ""}" onclick="toggleDone('${task.id}',${isDone})">${isDone ? "✓" : ""}</button>
-        </div>
-        ${notesHtml}
-        <div class="card-tags">
-          <span class="tag tag-cat">${CATS[task.category] || task.category}</span>
-          <span class="tag" style="background:${priColor}20;color:${priColor};font-weight:600">${PRI_LABEL[task.priority] || "Med"}</span>
-          ${fuHtml}
-        </div>
-      `;
-      card.addEventListener("click", () => openEdit(task));
-      card.addEventListener("dragstart", () => { dragId = task.id; card.classList.add("dragging"); });
-      card.addEventListener("dragend", () => { dragId = null; render(); });
+      const notesFull = task.notes || "";
+      const notesShort = notesFull.length > 80 ? notesFull.slice(0, 80) + "…" : notesFull;
+      const hasMore = notesFull.length > 80;
+      const notesHtml = notesFull ? '<div class="card-notes" id="notes-' + task.id + '">' + notesShort + '</div>' + (hasMore ? '<button class="card-notes-toggle" onclick="toggleNotes(event,\'' + task.id + '\')">Read more</button>' : "") : "";
+      const dueHtml = task.dueDate ? '<span class="tag tag-due ' + (status === "overdue" ? "tag-overdue" : "") + '">' + formatDue(task.dueDate) + '</span>' : "";
+      const fuHtml = task.followUp ? '<span class="tag tag-fu">↩ Follow-up</span>' : "";
+      const completedSubs = (task.subtasks || []).filter(function(s) { return s.done; }).length;
+      const totalSubs = (task.subtasks || []).length;
+      const subHtml = totalSubs > 0 ?
+        '<div class="subtasks">' +
+          task.subtasks.slice(0, 3).map(function(s, i) {
+            return '<div class="subtask-item"><button class="subtask-check ' + (s.done ? "done" : "") + '" onclick="toggleSubtask(event,\'' + task.id + '\',' + i + ')">' + (s.done ? "✓" : "") + '</button><span class="subtask-label ' + (s.done ? "done" : "") + '">' + s.text + '</span></div>';
+          }).join("") +
+          (totalSubs > 3 ? '<div class="subtask-progress">' + (totalSubs - 3) + ' more subtask' + (totalSubs - 3 > 1 ? "s" : "") + '</div>' : "") +
+          '<div class="subtask-progress">' + completedSubs + '/' + totalSubs + ' complete</div>' +
+        '</div>' : "";
+      card.innerHTML =
+        '<div class="card-top">' +
+          '<div class="card-title ' + (isDone ? "done-title" : "") + '">' + task.title + '</div>' +
+          '<button class="check-btn ' + (isDone ? "checked" : "") + '" onclick="toggleDone(\'' + task.id + '\',' + isDone + ')">' + (isDone ? "✓" : "") + '</button>' +
+        '</div>' +
+        notesHtml + subHtml +
+        '<div class="card-tags">' +
+          '<span class="tag tag-cat">' + (CATS[task.category] || task.category) + '</span>' +
+          '<span class="tag" style="background:' + priColor + '20;color:' + priColor + ';font-weight:600">' + (PRI_LABEL[task.priority] || "Med") + '</span>' +
+          dueHtml + fuHtml +
+        '</div>';
+      card.addEventListener("click", function() { openEdit(task); });
+      card.addEventListener("dragstart", function() { dragId = task.id; card.classList.add("dragging"); });
+      card.addEventListener("dragend", function() { dragId = null; render(); });
       cardsEl.appendChild(card);
     });
   });
 }
 
+function toggleNotes(e, id) {
+  e.stopPropagation();
+  const task = tasks.find(function(t) { return t.id === id; });
+  if (!task) return;
+  const el = document.getElementById("notes-" + id);
+  const btn = e.target;
+  if (btn.textContent === "Read more") { el.textContent = task.notes; btn.textContent = "Show less"; }
+  else { el.textContent = task.notes.slice(0, 80) + "…"; btn.textContent = "Read more"; }
+}
+
+function toggleSubtask(e, taskId, idx) {
+  e.stopPropagation();
+  const task = tasks.find(function(t) { return t.id === taskId; });
+  if (!task) return;
+  task.subtasks[idx].done = !task.subtasks[idx].done;
+  render();
+  updateTaskRemote(taskId, { Subtasks: JSON.stringify(task.subtasks) });
+}
+
 function dropOnCol(colId) {
   if (!dragId) return;
-  const task = tasks.find(t => t.id === dragId);
+  const task = tasks.find(function(t) { return t.id === dragId; });
   if (!task || task.column === colId) return;
   task.column = colId; render();
   updateTaskRemote(dragId, { Column: colId });
@@ -325,10 +563,40 @@ function dropOnCol(colId) {
 
 function toggleDone(id, isDone) {
   event.stopPropagation();
-  const task = tasks.find(t => t.id === id);
+  const task = tasks.find(function(t) { return t.id === id; });
   if (!task) return;
   task.column = isDone ? "today" : "done"; render();
   updateTaskRemote(id, { Column: task.column });
+}
+
+function renderSubtaskEditor(subtasks) {
+  const container = document.getElementById("subtaskEditor");
+  container.innerHTML = (subtasks || []).map(function(s, i) {
+    return '<div class="subtask-edit-item" id="sub-row-' + i + '"><input value="' + s.text + '" placeholder="Subtask…" /><button class="btn-remove-sub" onclick="removeSubtaskField(' + i + ')">×</button></div>';
+  }).join("");
+}
+
+function addSubtaskField() {
+  const container = document.getElementById("subtaskEditor");
+  const i = container.children.length;
+  const div = document.createElement("div");
+  div.className = "subtask-edit-item";
+  div.id = "sub-row-" + i;
+  div.innerHTML = '<input placeholder="Subtask…" /><button class="btn-remove-sub" onclick="removeSubtaskField(' + i + ')">×</button>';
+  container.appendChild(div);
+  div.querySelector("input").focus();
+}
+
+function removeSubtaskField(i) {
+  const row = document.getElementById("sub-row-" + i);
+  if (row) row.remove();
+}
+
+function getSubtasksFromEditor() {
+  const rows = document.querySelectorAll(".subtask-edit-item input");
+  const result = [];
+  rows.forEach(function(input) { if (input.value.trim()) result.push({ text: input.value.trim(), done: false }); });
+  return result;
 }
 
 function openNew(colId) {
@@ -340,9 +608,11 @@ function openNew(colId) {
   document.getElementById("fCategory").value = "personal";
   document.getElementById("fPriority").value = "medium";
   document.getElementById("fColumn").value = colId;
+  document.getElementById("fDueDate").value = "";
   document.getElementById("fFollowUp").checked = false;
+  renderSubtaskEditor([]);
   document.getElementById("overlay").style.display = "flex";
-  setTimeout(() => document.getElementById("fTitle").focus(), 50);
+  setTimeout(function() { document.getElementById("fTitle").focus(); }, 50);
 }
 
 function openEdit(task) {
@@ -354,7 +624,9 @@ function openEdit(task) {
   document.getElementById("fCategory").value = task.category;
   document.getElementById("fPriority").value = task.priority;
   document.getElementById("fColumn").value = task.column;
+  document.getElementById("fDueDate").value = task.dueDate || "";
   document.getElementById("fFollowUp").checked = task.followUp;
+  renderSubtaskEditor(task.subtasks || []);
   document.getElementById("overlay").style.display = "flex";
 }
 
@@ -367,6 +639,7 @@ function closeModal(e) {
 async function saveTask() {
   const title = document.getElementById("fTitle").value.trim();
   if (!title) { document.getElementById("fTitle").focus(); return; }
+  const subtasks = getSubtasksFromEditor();
   const fields = {
     Title: title,
     Notes: document.getElementById("fNotes").value,
@@ -374,11 +647,15 @@ async function saveTask() {
     Category: document.getElementById("fCategory").value,
     Priority: document.getElementById("fPriority").value,
     "Follow Up": document.getElementById("fFollowUp").checked,
+    "Due Date": document.getElementById("fDueDate").value || null,
+    Subtasks: subtasks.length > 0 ? JSON.stringify(subtasks) : null,
   };
+  if (!fields["Due Date"]) delete fields["Due Date"];
+  if (!fields["Subtasks"]) delete fields["Subtasks"];
   document.getElementById("overlay").style.display = "none";
   if (editingId) {
-    const task = tasks.find(t => t.id === editingId);
-    if (task) Object.assign(task, { title: fields.Title, notes: fields.Notes, column: fields.Column, category: fields.Category, priority: fields.Priority, followUp: fields["Follow Up"] });
+    const task = tasks.find(function(t) { return t.id === editingId; });
+    if (task) Object.assign(task, { title: fields.Title, notes: fields.Notes, column: fields.Column, category: fields.Category, priority: fields.Priority, followUp: fields["Follow Up"], dueDate: fields["Due Date"] || "", subtasks: subtasks });
     render();
     await updateTaskRemote(editingId, fields);
   } else {
@@ -391,17 +668,22 @@ async function deleteTask() {
   if (!editingId) return;
   document.getElementById("overlay").style.display = "none";
   const id = editingId; editingId = null;
-  tasks = tasks.filter(t => t.id !== id); render();
+  tasks = tasks.filter(function(t) { return t.id !== id; }); render();
   await deleteTaskRemote(id);
+}
+
+function setMsg(text, isError) {
+  const el = document.getElementById("dumpMsg");
+  el.textContent = text;
+  el.className = "dump-msg" + (isError ? " error" : "");
 }
 
 async function processDump() {
   const text = document.getElementById("dumpInput").value.trim();
   if (!text) return;
   const btn = document.getElementById("dumpBtn");
-  const msg = document.getElementById("dumpMsg");
   btn.disabled = true; btn.textContent = "Sorting…";
-  msg.textContent = ""; msg.className = "dump-msg";
+  setMsg("", false);
   try {
     const res = await fetch("/api/process-dump", {
       method: "POST",
@@ -422,17 +704,18 @@ async function processDump() {
       });
     }
     document.getElementById("dumpInput").value = "";
-    msg.textContent = "✦ " + (parsed.summary || "All sorted and ready for you.");
-    msg.className = "dump-msg";
+    setMsg("✦ " + (parsed.summary || "All sorted and ready for you."), false);
   } catch(e) {
-    msg.textContent = e.message;
-    msg.className = "dump-msg error";
+    setMsg(e.message, true);
   }
   btn.disabled = false; btn.textContent = "Let's sort it ✦";
 }
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") document.getElementById("overlay").style.display = "none";
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("weeklyPanel").classList.remove("visible");
+  }
   if ((e.metaKey || e.ctrlKey) && e.key === "Enter" && document.activeElement === document.getElementById("dumpInput")) processDump();
 });
 
