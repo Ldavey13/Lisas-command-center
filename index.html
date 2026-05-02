@@ -8,47 +8,19 @@
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #FDF6F0;
-    --surface: #FFFAF7;
-    --border: #F0E0D0;
-    --text: #2C1810;
-    --text-muted: #A0806A;
-    --coral: #E8735A;
-    --high: #E8735A;
-    --medium: #C4A8C8;
-    --low: #B0A898;
+    --bg: #FDF6F0; --surface: #FFFAF7; --border: #F0E0D0;
+    --text: #2C1810; --text-muted: #A0806A; --coral: #E8735A;
+    --high: #E8735A; --medium: #C4A8C8; --low: #B0A898;
   }
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
   header {
-    position: relative;
-    overflow: hidden;
-    min-height: 120px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    position: relative; overflow: hidden; min-height: 120px;
+    display: flex; flex-direction: column; justify-content: center;
     background: linear-gradient(135deg,
-      #5B8FA8 0%,
-      #7BACC4 10%,
-      #A8C4D8 20%,
-      #C4A8C8 35%,
-      #D4889A 50%,
-      #E89070 65%,
-      #F0A878 75%,
-      #F4C090 85%,
-      #F8D8A8 100%
-    );
+      #5B8FA8 0%, #7BACC4 10%, #A8C4D8 20%, #C4A8C8 35%,
+      #D4889A 50%, #E89070 65%, #F0A878 75%, #F4C090 85%, #F8D8A8 100%);
   }
-  .sun-glow {
-    position: absolute;
-    right: 160px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,248,200,0.9) 0%, rgba(248,200,100,0.5) 40%, rgba(240,150,60,0) 70%);
-    z-index: 5;
-  }
+  .sun-glow { position: absolute; right: 160px; top: 50%; transform: translateY(-50%); width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, rgba(255,248,200,0.9) 0%, rgba(248,200,100,0.5) 40%, rgba(240,150,60,0) 70%); z-index: 5; }
   .header-content { position: relative; z-index: 10; padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; }
   header h1 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: #FDF6F0; text-shadow: 0 1px 8px rgba(0,0,0,0.25); letter-spacing: -0.3px; }
   header .tagline { font-size: 12px; color: rgba(253,246,240,0.85); margin-top: 3px; font-family: 'Playfair Display', serif; font-style: italic; }
@@ -225,10 +197,7 @@ document.getElementById("dateDisplay").textContent =
 
 function toggleMic() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert("Voice input isn't supported in this browser. Try Chrome or Safari on iPhone.");
-    return;
-  }
+  if (!SpeechRecognition) { alert("Voice input isn't supported in this browser. Try Chrome or Safari on iPhone."); return; }
   if (isListening) { recognition.stop(); return; }
   recognition = new SpeechRecognition();
   recognition.continuous = true;
@@ -237,12 +206,7 @@ function toggleMic() {
   const micBtn = document.getElementById("micBtn");
   const input = document.getElementById("dumpInput");
   let finalTranscript = input.value;
-  recognition.onstart = function() {
-    isListening = true;
-    micBtn.classList.add("listening");
-    micBtn.textContent = "⏹️";
-    micBtn.title = "Tap to stop";
-  };
+  recognition.onstart = function() { isListening = true; micBtn.classList.add("listening"); micBtn.textContent = "⏹️"; micBtn.title = "Tap to stop"; };
   recognition.onresult = function(event) {
     let interim = "";
     for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -251,21 +215,10 @@ function toggleMic() {
     }
     input.value = finalTranscript + interim;
   };
-  recognition.onend = function() {
-    isListening = false;
-    micBtn.classList.remove("listening");
-    micBtn.textContent = "🎙️";
-    micBtn.title = "Speak your thoughts";
-    input.value = finalTranscript.trim();
-  };
+  recognition.onend = function() { isListening = false; micBtn.classList.remove("listening"); micBtn.textContent = "🎙️"; micBtn.title = "Speak your thoughts"; input.value = finalTranscript.trim(); };
   recognition.onerror = function(event) {
-    isListening = false;
-    micBtn.classList.remove("listening");
-    micBtn.textContent = "🎙️";
-    if (event.error !== "aborted") {
-      document.getElementById("dumpMsg").textContent = "Mic error: " + event.error;
-      document.getElementById("dumpMsg").className = "dump-msg error";
-    }
+    isListening = false; micBtn.classList.remove("listening"); micBtn.textContent = "🎙️";
+    if (event.error !== "aborted") { document.getElementById("dumpMsg").textContent = "Mic error: " + event.error; document.getElementById("dumpMsg").className = "dump-msg error"; }
   };
   recognition.start();
 }
@@ -345,4 +298,145 @@ function render() {
       card.innerHTML = `
         <div class="card-top">
           <div class="card-title ${isDone ? "done-title" : ""}">${task.title}</div>
-          <button class="check-btn ${isDone ? "checked" : ""}" onclick="toggleDone('${task.id
+          <button class="check-btn ${isDone ? "checked" : ""}" onclick="toggleDone('${task.id}',${isDone})">${isDone ? "✓" : ""}</button>
+        </div>
+        ${notesHtml}
+        <div class="card-tags">
+          <span class="tag tag-cat">${CATS[task.category] || task.category}</span>
+          <span class="tag" style="background:${priColor}20;color:${priColor};font-weight:600">${PRI_LABEL[task.priority] || "Med"}</span>
+          ${fuHtml}
+        </div>
+      `;
+      card.addEventListener("click", () => openEdit(task));
+      card.addEventListener("dragstart", () => { dragId = task.id; card.classList.add("dragging"); });
+      card.addEventListener("dragend", () => { dragId = null; render(); });
+      cardsEl.appendChild(card);
+    });
+  });
+}
+
+function dropOnCol(colId) {
+  if (!dragId) return;
+  const task = tasks.find(t => t.id === dragId);
+  if (!task || task.column === colId) return;
+  task.column = colId; render();
+  updateTaskRemote(dragId, { Column: colId });
+}
+
+function toggleDone(id, isDone) {
+  event.stopPropagation();
+  const task = tasks.find(t => t.id === id);
+  if (!task) return;
+  task.column = isDone ? "today" : "done"; render();
+  updateTaskRemote(id, { Column: task.column });
+}
+
+function openNew(colId) {
+  editingId = null;
+  document.getElementById("modalTitle").textContent = "New Task";
+  document.getElementById("deleteBtn").style.display = "none";
+  document.getElementById("fTitle").value = "";
+  document.getElementById("fNotes").value = "";
+  document.getElementById("fCategory").value = "personal";
+  document.getElementById("fPriority").value = "medium";
+  document.getElementById("fColumn").value = colId;
+  document.getElementById("fFollowUp").checked = false;
+  document.getElementById("overlay").style.display = "flex";
+  setTimeout(() => document.getElementById("fTitle").focus(), 50);
+}
+
+function openEdit(task) {
+  editingId = task.id;
+  document.getElementById("modalTitle").textContent = "Edit Task";
+  document.getElementById("deleteBtn").style.display = "block";
+  document.getElementById("fTitle").value = task.title;
+  document.getElementById("fNotes").value = task.notes;
+  document.getElementById("fCategory").value = task.category;
+  document.getElementById("fPriority").value = task.priority;
+  document.getElementById("fColumn").value = task.column;
+  document.getElementById("fFollowUp").checked = task.followUp;
+  document.getElementById("overlay").style.display = "flex";
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById("overlay")) return;
+  document.getElementById("overlay").style.display = "none";
+  editingId = null;
+}
+
+async function saveTask() {
+  const title = document.getElementById("fTitle").value.trim();
+  if (!title) { document.getElementById("fTitle").focus(); return; }
+  const fields = {
+    Title: title,
+    Notes: document.getElementById("fNotes").value,
+    Column: document.getElementById("fColumn").value,
+    Category: document.getElementById("fCategory").value,
+    Priority: document.getElementById("fPriority").value,
+    "Follow Up": document.getElementById("fFollowUp").checked,
+  };
+  document.getElementById("overlay").style.display = "none";
+  if (editingId) {
+    const task = tasks.find(t => t.id === editingId);
+    if (task) Object.assign(task, { title: fields.Title, notes: fields.Notes, column: fields.Column, category: fields.Category, priority: fields.Priority, followUp: fields["Follow Up"] });
+    render();
+    await updateTaskRemote(editingId, fields);
+  } else {
+    await createTask(fields);
+  }
+  editingId = null;
+}
+
+async function deleteTask() {
+  if (!editingId) return;
+  document.getElementById("overlay").style.display = "none";
+  const id = editingId; editingId = null;
+  tasks = tasks.filter(t => t.id !== id); render();
+  await deleteTaskRemote(id);
+}
+
+async function processDump() {
+  const text = document.getElementById("dumpInput").value.trim();
+  if (!text) return;
+  const btn = document.getElementById("dumpBtn");
+  const msg = document.getElementById("dumpMsg");
+  btn.disabled = true; btn.textContent = "Sorting…";
+  msg.textContent = ""; msg.className = "dump-msg";
+  try {
+    const res = await fetch("/api/process-dump", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+    const parsed = await res.json();
+    if (parsed.error) throw new Error(parsed.error);
+    if (!parsed || !Array.isArray(parsed.tasks)) throw new Error("Could not parse response — try again.");
+    for (const t of parsed.tasks) {
+      await createTask({
+        Title: t.title || "Untitled",
+        Notes: t.notes || "",
+        Column: ["ideas","backlog","today","in_progress","done"].includes(t.column) ? t.column : "backlog",
+        Category: ["business","personal","research","travel","home","creative"].includes(t.category) ? t.category : "personal",
+        Priority: ["high","medium","low"].includes(t.priority) ? t.priority : "medium",
+        "Follow Up": false,
+      });
+    }
+    document.getElementById("dumpInput").value = "";
+    msg.textContent = "✦ " + (parsed.summary || "All sorted and ready for you.");
+    msg.className = "dump-msg";
+  } catch(e) {
+    msg.textContent = e.message;
+    msg.className = "dump-msg error";
+  }
+  btn.disabled = false; btn.textContent = "Let's sort it ✦";
+}
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") document.getElementById("overlay").style.display = "none";
+  if ((e.metaKey || e.ctrlKey) && e.key === "Enter" && document.activeElement === document.getElementById("dumpInput")) processDump();
+});
+
+loadTasks();
+</script>
+</body>
+</html>
