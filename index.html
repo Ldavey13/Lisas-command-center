@@ -5,34 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lisa's Command Center</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #F5F2ED; --surface: #FDFCFA; --border: #E4DDD4;
-    --text: #2A2420; --text-muted: #9A8C7E;
-    --ideas: #7B6FCD; --ideas-light: #F0EEFF;
-    --backlog: #5B7FA6; --backlog-light: #EDF3FA;
-    --today: #C0622F; --today-light: #FDF0E8;
-    --progress: #2E8A5E; --progress-light: #E8F5EE;
-    --done: #999; --done-light: #F4F4F4;
-    --high: #C0622F; --medium: #5B7FA6; --low: #999;
+    --bg: #FDF6F0;
+    --surface: #FFFAF7;
+    --border: #F0E0D0;
+    --text: #2C1810;
+    --text-muted: #A0806A;
+    --coral: #E8735A;
+    --peach: #F4A57A;
+    --rose: #D4788A;
+    --lavender: #C4A8C8;
+    --gold: #F2C472;
+    --high: #E8735A;
+    --medium: #C4A8C8;
+    --low: #B0A898;
   }
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-  header { background: var(--text); color: #F5F2ED; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-  header h1 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
-  header .date { font-size: 11px; color: #9A8870; margin-top: 2px; font-weight: 300; }
+  header { position: relative; overflow: hidden; min-height: 120px; display: flex; flex-direction: column; justify-content: center; }
+  .header-bands { position: absolute; inset: 0; display: flex; flex-direction: column; }
+  .band { flex: 1; }
+  .header-content { position: relative; z-index: 10; padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; }
+  header h1 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: #FDF6F0; text-shadow: 0 1px 6px rgba(0,0,0,0.4); letter-spacing: -0.3px; }
+  header .tagline { font-size: 12px; color: rgba(253,246,240,0.8); margin-top: 3px; font-family: 'Playfair Display', serif; font-style: italic; }
+  header .date { font-size: 11px; color: rgba(253,246,240,0.65); margin-top: 5px; font-weight: 300; }
   .header-right { display: flex; align-items: center; gap: 14px; font-size: 12px; }
-  .followup-badge { background: var(--today); color: #fff; border-radius: 20px; padding: 3px 12px; font-weight: 600; font-size: 11px; display: none; }
-  .stats { color: #9A8870; }
+  .followup-badge { background: rgba(255,255,255,0.2); color: #FDF6F0; border: 1px solid rgba(255,255,255,0.35); border-radius: 20px; padding: 3px 12px; font-weight: 600; font-size: 11px; display: none; }
+  .stats { color: rgba(253,246,240,0.7); }
   .dump-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 28px; display: flex; gap: 12px; align-items: flex-start; }
   .dump-bar textarea { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-family: 'Playfair Display', serif; font-size: 13px; color: var(--text); background: var(--bg); resize: none; height: 42px; outline: none; transition: border-color 0.15s, height 0.2s; line-height: 1.5; }
-  .dump-bar textarea:focus { border-color: var(--ideas); height: 90px; }
+  .dump-bar textarea:focus { border-color: var(--coral); height: 90px; }
   .dump-bar textarea::placeholder { color: var(--text-muted); }
-  .btn-process { background: var(--text); color: #F5F2ED; border: none; border-radius: 8px; padding: 10px 20px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .btn-process { background: linear-gradient(135deg, #C0622F, #E8735A); color: #FDF6F0; border: none; border-radius: 8px; padding: 10px 20px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(192,98,47,0.25); transition: opacity 0.15s; }
   .btn-process:disabled { opacity: 0.4; cursor: default; }
-  .dump-msg { font-size: 12px; padding: 6px 28px; font-style: italic; min-height: 24px; color: var(--progress); }
+  .dump-msg { font-size: 12px; padding: 6px 28px; font-style: italic; min-height: 24px; color: #2E8A5E; }
   .dump-msg.error { color: var(--high); }
-  .board { display: flex; gap: 12px; padding: 16px 28px 48px; overflow-x: auto; min-height: calc(100vh - 160px); align-items: flex-start; }
+  .board { display: flex; gap: 12px; padding: 16px 28px 48px; overflow-x: auto; min-height: calc(100vh - 220px); align-items: flex-start; }
   .col { min-width: 220px; flex: 1 1 220px; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 12px 10px; transition: border-color 0.15s, background 0.15s; }
   .col.drag-over { border-color: var(--col-color); background: var(--col-light); }
   .col-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 2px; }
@@ -40,22 +49,22 @@
   .col-count { font-size: 11px; font-weight: 700; border-radius: 10px; padding: 1px 8px; background: var(--col-light); color: var(--col-color); }
   .cards { display: flex; flex-direction: column; gap: 7px; min-height: 40px; }
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 10px 11px; cursor: grab; transition: opacity 0.12s, box-shadow 0.12s; user-select: none; }
-  .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .card:hover { box-shadow: 0 2px 12px rgba(192,98,47,0.1); border-color: #F0C8B0; }
   .card.dragging { opacity: 0.4; }
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   .card-title { font-size: 13px; font-weight: 600; line-height: 1.4; flex: 1; color: var(--text); }
   .card-title.done-title { text-decoration: line-through; color: var(--text-muted); }
   .check-btn { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border); background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #fff; margin-top: 1px; transition: all 0.15s; }
-  .check-btn.checked { background: var(--progress); border-color: var(--progress); }
+  .check-btn.checked { background: #2E8A5E; border-color: #2E8A5E; }
   .card-notes { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; font-weight: 300; }
   .card-tags { display: flex; gap: 4px; margin-top: 7px; flex-wrap: wrap; }
   .tag { font-size: 10px; border-radius: 4px; padding: 2px 6px; font-weight: 500; }
-  .tag-cat { background: #F0EDE8; color: #7A6E64; }
-  .tag-fu { background: #FDF0E8; color: var(--today); }
+  .tag-cat { background: #FDE8D8; color: #8C4A2A; }
+  .tag-fu { background: #FDE8D8; color: var(--coral); }
   .btn-add { margin-top: 8px; width: 100%; border: 1.5px dashed var(--border); border-radius: 8px; padding: 7px; background: transparent; color: var(--text-muted); font-size: 12px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
-  .btn-add:hover { border-color: var(--col-color); color: var(--col-color); }
-  .overlay { position: fixed; inset: 0; background: rgba(30,24,20,0.5); display: flex; align-items: center; justify-content: center; z-index: 500; padding: 20px; backdrop-filter: blur(2px); }
-  .modal { background: var(--surface); border-radius: 14px; padding: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 12px 48px rgba(0,0,0,0.2); }
+  .btn-add:hover { border-color: var(--coral); color: var(--coral); }
+  .overlay { position: fixed; inset: 0; background: rgba(44,24,16,0.5); display: flex; align-items: center; justify-content: center; z-index: 500; padding: 20px; backdrop-filter: blur(2px); }
+  .modal { background: var(--surface); border-radius: 14px; padding: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 12px 48px rgba(44,24,16,0.2); }
   .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .modal-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
   .modal-actions { display: flex; gap: 8px; }
@@ -63,15 +72,15 @@
   .btn-close { background: none; border: none; font-size: 22px; color: var(--text-muted); cursor: pointer; line-height: 1; padding: 0 4px; }
   label.field-label { display: block; font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; margin-top: 14px; }
   input.field, textarea.field, select.field { display: block; width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-family: 'Playfair Display', serif; font-size: 13px; color: var(--text); background: var(--bg); outline: none; transition: border-color 0.15s; }
-  input.field:focus, textarea.field:focus, select.field:focus { border-color: var(--ideas); }
+  input.field:focus, textarea.field:focus, select.field:focus { border-color: var(--coral); }
   textarea.field { min-height: 72px; resize: vertical; }
   select.field { font-family: 'DM Sans', sans-serif; }
   .field-row { display: flex; gap: 10px; }
   .field-row > div { flex: 1; }
-  .followup-check { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 13px; color: var(--today); cursor: pointer; font-weight: 500; }
-  .followup-check input { accent-color: var(--today); width: 15px; height: 15px; }
+  .followup-check { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 13px; color: var(--coral); cursor: pointer; font-weight: 500; }
+  .followup-check input { accent-color: var(--coral); width: 15px; height: 15px; }
   .btn-row { display: flex; gap: 10px; margin-top: 20px; }
-  .btn-save { flex: 1; background: var(--text); color: #F5F2ED; border: none; border-radius: 8px; padding: 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .btn-save { flex: 1; background: linear-gradient(135deg, #C0622F, #E8735A); color: #FDF6F0; border: none; border-radius: 8px; padding: 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
   .btn-cancel { background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 10px 18px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; }
   .loading-bar { text-align: center; padding: 40px; color: var(--text-muted); font-style: italic; }
 </style>
@@ -79,13 +88,42 @@
 <body>
 
 <header>
-  <div>
-    <h1>Lisa's Command Center</h1>
-    <div class="date" id="dateDisplay"></div>
+  <div class="header-bands">
+    <div class="band" style="background:#1A0A06"></div>
+    <div class="band" style="background:#3C1A10"></div>
+    <div class="band" style="background:#7C3420"></div>
+    <div class="band" style="background:#B85C30"></div>
+    <div class="band" style="background:#D4784A"></div>
+    <div class="band" style="background:#E8956A"></div>
+    <div class="band" style="background:#F0B080"></div>
+    <div class="band" style="background:#F4C890"></div>
+    <div class="band" style="background:#F8D8A8"></div>
+    <div class="band" style="background:#FDE8C0"></div>
+    <div class="band" style="background:#FEF0D8"></div>
+    <div class="band" style="background:#FFF6E8"></div>
   </div>
-  <div class="header-right">
-    <div class="followup-badge" id="followupBadge"></div>
-    <div class="stats" id="statsDisplay">Loading…</div>
+  <svg style="position:absolute;right:180px;top:50%;transform:translateY(-50%);z-index:5" width="60" height="60" viewBox="0 0 60 60">
+    <defs>
+      <radialGradient id="sg" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#FFF0A0"/>
+        <stop offset="40%" stop-color="#F8C840"/>
+        <stop offset="100%" stop-color="#F09030" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="30" cy="30" r="30" fill="url(#sg)"/>
+    <circle cx="30" cy="30" r="14" fill="#FFF8D0" opacity="0.95"/>
+    <circle cx="30" cy="30" r="10" fill="#FFFAE0"/>
+  </svg>
+  <div class="header-content">
+    <div>
+      <h1>Lisa's Command Center</h1>
+      <div class="tagline">clear your head · capture everything · move forward</div>
+      <div class="date" id="dateDisplay"></div>
+    </div>
+    <div class="header-right">
+      <div class="followup-badge" id="followupBadge"></div>
+      <div class="stats" id="statsDisplay">Loading…</div>
+    </div>
   </div>
 </header>
 
@@ -160,11 +198,11 @@ const TABLE_ID = "tblba8w6PnCdY5RK8";
 const API = "https://api.airtable.com/v0/" + BASE_ID + "/" + TABLE_ID;
 
 const COLS = [
-  { id: "ideas", label: "Creative Ideas", emoji: "💡", color: "#7B6FCD", light: "#F0EEFF" },
-  { id: "backlog", label: "Backlog", emoji: "📋", color: "#5B7FA6", light: "#EDF3FA" },
-  { id: "today", label: "Today", emoji: "🎯", color: "#C0622F", light: "#FDF0E8" },
-  { id: "in_progress", label: "In Progress", emoji: "⚡", color: "#2E8A5E", light: "#E8F5EE" },
-  { id: "done", label: "Done", emoji: "✅", color: "#999", light: "#F4F4F4" },
+  { id: "ideas", label: "Creative Ideas", emoji: "💡", color: "#C4A8C8", light: "#F5F0F8" },
+  { id: "backlog", label: "Backlog", emoji: "📋", color: "#A0806A", light: "#FDF0E8" },
+  { id: "today", label: "Today", emoji: "🎯", color: "#E8735A", light: "#FEF0EC" },
+  { id: "in_progress", label: "In Progress", emoji: "⚡", color: "#D4788A", light: "#FEF0F2" },
+  { id: "done", label: "Done", emoji: "✅", color: "#B0A898", light: "#F4F2F0" },
 ];
 
 const CATS = {
@@ -172,7 +210,7 @@ const CATS = {
   travel: "✈️ Travel", home: "🏡 Home", creative: "✨ Creative",
 };
 
-const PRI_COLOR = { high: "#C0622F", medium: "#5B7FA6", low: "#999" };
+const PRI_COLOR = { high: "#E8735A", medium: "#C4A8C8", low: "#B0A898" };
 const PRI_LABEL = { high: "High", medium: "Med", low: "Low" };
 const PRI_ORDER = { high: 0, medium: 1, low: 2 };
 
