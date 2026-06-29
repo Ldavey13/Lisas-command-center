@@ -168,6 +168,7 @@
   </select>
   <button class="btn-get-priorities" id="priorityBtn" onclick="getDailyPriorities()">✦ Prioritize my day</button>
   <button class="btn-get-priorities" style="background:linear-gradient(135deg,#A0806A,#C4A8C8)" onclick="showWeeklyReview()">📊 Weekly review</button>
+  <button class="btn-get-priorities" style="background:linear-gradient(135deg,#999,#B0A898)" onclick="clearOldCompleted()">🧹 Clear old completed</button>
 </div>
 
 <div class="dump-bar">
@@ -351,6 +352,16 @@ async function cleanupOldCompleted() {
   render();
 }
 
+async function clearOldCompleted() {
+  const doneCount = tasks.filter(t => t.column === "done").length;
+  if (doneCount === 0) { alert("Nothing in Done to clear."); return; }
+  if (!confirm("This will permanently delete all " + doneCount + " completed tasks from your board and Airtable. Continue?")) return;
+  const toRemove = tasks.filter(t => t.column === "done");
+  for (const t of toRemove) { await deleteTaskRemote(t.id); }
+  tasks = tasks.filter(t => t.column !== "done");
+  render();
+}
+
 async function createTask(fields) {
   const data = await atFetch("POST", "", { records: [{ fields }] });
   if (data.records) { tasks.push(toTask(data.records[0])); render(); }
@@ -412,7 +423,7 @@ async function getDailyPriorities() {
     const res = await fetch("/api/process-dump", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: "PRIORITY_MODE: Based on these tasks, give me my top 3 priorities right now with a one-sentence reason for each. Return JSON only: {\"priorities\":[{\"title\":\"task title\",\"reason\":\"why this first\"}]}\n\nTasks:\n" + active }),
+      body: JSON.stringify({ text: "PRIORITY_MODE: Based on these tasks, give me my top 3 priorities right now with a one-sentence reason for each.\n\nTasks:\n" + active }),
     });
     const data = await res.json();
     if (data.priorities && Array.isArray(data.priorities)) {
@@ -424,8 +435,10 @@ async function getDailyPriorities() {
         </div>
       `).join("");
       document.getElementById("priorityBanner").classList.add("visible");
+    } else if (data.error) {
+      setMsg("Priority error: " + data.error, true);
     }
-  } catch(e) {}
+  } catch(e) { setMsg("Priority error: " + e.message, true); }
   btn.disabled = false; btn.textContent = "✦ Prioritize my day";
 }
 
