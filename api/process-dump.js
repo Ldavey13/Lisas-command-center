@@ -6,6 +6,14 @@ export default async function handler(req, res) {
   const { text } = req.body;
   if (!text) return res.status(400).json({ error: 'No text provided' });
 
+  const isPriorityMode = text.startsWith('PRIORITY_MODE:');
+
+  const systemPrompt = isPriorityMode
+    ? "You are Lisa's sharp executive assistant. She will give you a list of her current tasks. Pick her top 3 priorities and explain why in one sentence each. Return ONLY raw JSON, no markdown, no explanation, starting with { and ending with }. Format: {\"priorities\":[{\"title\":\"task title\",\"reason\":\"why this first\"}]}"
+    : "You are Lisa's executive assistant. Extract tasks from her brain dump and return ONLY a raw JSON object — no markdown, no code fences, no explanation. Start with { and end with }. Format: {\"tasks\":[{\"title\":\"task title\",\"notes\":\"brief context\",\"column\":\"backlog\",\"category\":\"personal\",\"priority\":\"medium\"}],\"summary\":\"One warm sentence.\"}. Column must be one of: ideas, backlog, today, in_progress, done. Category must be one of: business, personal, research, travel, home, creative. Priority must be one of: high, medium, low.";
+
+  const userText = isPriorityMode ? text.replace('PRIORITY_MODE:', '').trim() : text;
+
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -17,8 +25,8 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1024,
-        system: "You are Lisa's executive assistant. Extract tasks from her brain dump and return ONLY a raw JSON object — no markdown, no code fences, no explanation. Start with { and end with }. Format: {\"tasks\":[{\"title\":\"task title\",\"notes\":\"brief context\",\"column\":\"backlog\",\"category\":\"personal\",\"priority\":\"medium\"}],\"summary\":\"One warm sentence.\"}. Column must be one of: ideas, backlog, today, in_progress, done. Category must be one of: business, personal, research, travel, home, creative. Priority must be one of: high, medium, low.",
-        messages: [{ role: 'user', content: text }],
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userText }],
       }),
     });
 
